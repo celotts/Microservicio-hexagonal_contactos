@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { Contactos } from './contactos/entities/contactos.entity';
+import { ContactoEntity } from './infrastructure/database/entities/contactos.entity';
 
 export class DatabaseConfiguration {
   public static getConfig(): TypeOrmModuleOptions {
@@ -10,7 +10,7 @@ export class DatabaseConfiguration {
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Contactos],
+      entities: [ContactoEntity],
       synchronize: true,
     };
   }
