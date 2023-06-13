@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Contactos } from '../entities/contactos.entity';
+import { Contactos } from '../entities/contact.entity';
 import { ObtenerContactoDto } from '../dtos/obtener-contacto.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -16,20 +16,27 @@ export class ContactosService {
   }
 
   async obtenerContactoPorId(id: number): Promise<Contactos> {
-    return await this.contactosRepository.findOne({
+    const contacto = await this.contactosRepository.findOne({
       where: { idContacto: id },
     });
+    if (!contacto) {
+      throw new NotFoundException('Contacto no encontrado');
+    }
+    return contacto;
   }
 
   async crearContacto(contacto: Contactos): Promise<Contactos> {
-    return this.contactosRepository.save(contacto);
+    const contactoReg = this.contactosRepository.save(contacto);
+    if (Object.entries(contactoReg).length === 0) {
+      throw new NotFoundException('Parámetro vacio');
+    }
+    return contactoReg;
   }
 
   async actualizarContacto(
     id: number,
     contactos: Contactos,
   ): Promise<Contactos> {
-    //return this.contactosRepository.save(contacto);
     const existingContacto = await this.contactosRepository.findOne({
       where: { idContacto: id },
     });

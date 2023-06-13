@@ -1,10 +1,10 @@
+import { ContactsRepository } from './../repositories/contactos.repository';
 import { Injectable } from '@nestjs/common';
-import { ContactosRepository } from '../repositories/contactos.repository';
 import { ActualizarContactoDto } from '../dtos/actualizar-contacto.dto';
 
 @Injectable()
 export class ActualizarContactoUseCase {
-  constructor(private readonly contactosRepository: ContactosRepository) {}
+  constructor(private readonly contactosRepository: ContactsRepository) {}
 
   async execute(
     id: number,

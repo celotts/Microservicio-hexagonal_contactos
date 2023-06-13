@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { ContactosRepository } from '../repositories/contactos.repository';
-import { CrearContactoDto } from '../dtos/crear-contacto.dto';
+import { ContactsRepository } from '../repositories/contactos.repository';
+import { CreateContactDto } from '../dtos/crear-contact.dto';
 
 @Injectable()
 export class CrearContactoUseCase {
-  constructor(private readonly contactosRepository: ContactosRepository) {}
+  constructor(private readonly contactosRepository: ContactsRepository) {}
 
-  async execute(crearContactoDto: CrearContactoDto): Promise<number> {
-    const contacto = this.contactosRepository.create(crearContactoDto);
-    await this.contactosRepository.save(contacto);
-    return contacto.idContacto;
+  async execute(crearContactoDto: CreateContactDto): Promise<any> {
+    console.log('aquiiii');
+    const contacto = await this.contactosRepository.create(
+      crearContactoDto as any,
+    );
+    await this.contactosRepository.create(contacto as any);
+    return contacto;
   }
 }

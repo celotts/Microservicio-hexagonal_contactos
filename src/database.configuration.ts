@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { Contactos } from './contactos/contacts/entities/contactos.entity';
+import { Contactos } from './contactos/contacts/entities/contact.entity';
 
 export class DatabaseConfiguration {
   public static getConfig(): TypeOrmModuleOptions {

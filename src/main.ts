@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { ContactoModule } from './contacto.module';
+import { ContactoModule } from './contactos.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(ContactoModule);

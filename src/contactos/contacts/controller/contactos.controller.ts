@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Contactos } from '../entities/contactos.entity';
+import { Contactos } from '../entities/contact.entity';
 import { ContactosService } from '../services/contactos.service';
 
 @Controller('contactos')
