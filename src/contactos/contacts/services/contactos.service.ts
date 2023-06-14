@@ -1,24 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Contactos } from '../entities/contact.entity';
 import { ObtenerContactoDto } from '../dtos/obtener-contacto.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ContactsRepository } from '../repositories/contactos.repository';
 
 @Injectable()
 export class ContactosService {
-  constructor(
-    @InjectRepository(Contactos)
-    private readonly contactosRepository: Repository<Contactos>,
-  ) {}
+  constructor(private readonly contactosRepository: ContactsRepository) {}
 
   async obtenerContactos(): Promise<ObtenerContactoDto[]> {
-    return await this.contactosRepository.find();
+    return await this.contactosRepository.findAll();
   }
 
   async obtenerContactoPorId(id: number): Promise<Contactos> {
-    const contacto = await this.contactosRepository.findOne({
-      where: { idContacto: id },
-    });
+    const contacto = await this.contactosRepository.findOne(id);
     if (!contacto) {
       throw new NotFoundException('Contacto no encontrado');
     }
@@ -26,7 +20,7 @@ export class ContactosService {
   }
 
   async crearContacto(contacto: Contactos): Promise<Contactos> {
-    const contactoReg = this.contactosRepository.save(contacto);
+    const contactoReg = await this.contactosRepository.create(contacto);
     if (Object.entries(contactoReg).length === 0) {
       throw new NotFoundException('Parámetro vacio');
     }
@@ -37,14 +31,14 @@ export class ContactosService {
     id: number,
     contactos: Contactos,
   ): Promise<Contactos> {
-    const existingContacto = await this.contactosRepository.findOne({
-      where: { idContacto: id },
-    });
+    const existingContacto = await this.contactosRepository.findOne(id);
     if (!existingContacto) {
       throw new NotFoundException('Contacto no encontrado');
     }
     await this.contactosRepository.update(id, contactos);
-    return this.contactosRepository.findOne({ where: { idContacto: id } });
+    const respueta = await this.contactosRepository.findOne(id);
+    console.log('jooo2', respueta);
+    return respueta;
   }
 
   async eliminarContacto(id: number): Promise<any> {

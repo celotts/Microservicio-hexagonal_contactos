@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { ObtenerContactoDto } from '../dtos/obtener-contacto.dto';
 import { ContactosService } from '../services/contactos.service';
+import { ObtenerContactoDto } from '../dtos/obtener-contacto.dto';
+import { ContactsRepository } from '../repositories/contactos.repository';
 
 @Injectable()
 export class ObtenerContactoAllUseCase {
-  constructor(private readonly contactosService: ContactosService) {}
+  constructor(private readonly contactosRepository: ContactsRepository) {}
 
   async execute(): Promise<ObtenerContactoDto[]> {
-    return await this.contactosService.obtenerContactos();
+    return await this.contactosRepository.findAll();
   }
 }

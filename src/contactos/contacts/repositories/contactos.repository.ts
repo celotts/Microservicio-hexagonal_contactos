@@ -11,12 +11,13 @@ export class ContactsRepository {
   ) {}
 
   async findAll(): Promise<Contactos[]> {
-    console.log(88888);
     return this.repository.find();
   }
 
-  async findOne(idContacto: number): Promise<Contactos> {
-    return this.repository.findOne(idContacto as any);
+  async findOne(id: number): Promise<Contactos> {
+    return this.repository.findOne({
+      where: { idContacto: id },
+    });
   }
 
   async create(contactData: Partial<Contactos>): Promise<Contactos> {
@@ -29,10 +30,10 @@ export class ContactsRepository {
     contactData: Partial<Contactos>,
   ): Promise<Contactos> {
     await this.repository.update(idContacto as any, contactData);
-    return this.repository.findOne(idContacto as any);
+    return await this.repository.findOne({ where: { idContacto: idContacto } });
   }
 
-  async delete(id: number): Promise<void> {
-    await this.repository.delete(id);
+  async delete(id: number): Promise<any> {
+    return await this.repository.delete(id);
   }
 }

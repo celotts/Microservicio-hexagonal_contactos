@@ -7,7 +7,6 @@ export class CrearContactoUseCase {
   constructor(private readonly contactosRepository: ContactsRepository) {}
 
   async execute(crearContactoDto: CreateContactDto): Promise<any> {
-    console.log('aquiiii');
     const contacto = await this.contactosRepository.create(
       crearContactoDto as any,
     );
